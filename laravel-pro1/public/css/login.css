@@ -1,0 +1,73 @@
+
+body {
+    background-image: url("https://previews.123rf.com/images/decorwithme/decorwithme1906/decorwithme190600154/128175869-online-exam-colorful-line-design-style-illustration-on-white-background-a-composition-with.jpg");
+    background-size: cover;
+    background-position: center;
+    opacity:1;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.login-form {
+        width: 813px;
+        margin: 0 auto;
+        padding: 51px;
+        background-color: #cac0c0;
+        border-radius: 75px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        opacity:0.9;
+        position:relative;
+        top:10rem;
+  }
+
+.login-form {
+    width: 813px;
+    margin: 0 auto;
+    padding: 51px;
+    background-color: #cac0c0;
+    border-radius: 75px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-form {
+    position: static;
+    text-transform: uppercase;
+}
+
+
+.login-form h1 {
+    text-align: center;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+
+.login-form button[type="submit"] {
+    width: 90%;
+    padding: 10px;
+    border-radius: 3px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.login-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.error-message {
+    color: red;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.session-error {
+    color: red;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
