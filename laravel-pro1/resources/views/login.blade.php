@@ -8,7 +8,11 @@
             background-image: url("https://previews.123rf.com/images/decorwithme/decorwithme1906/decorwithme190600154/128175869-online-exam-colorful-line-design-style-illustration-on-white-background-a-composition-with.jpg");
             background-size: cover;
             background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
             opacity:1;
+            width:100vw;
+            height:100vh;
             background-color: rgba(0, 0, 1, 1);
         }
         .login-form {
@@ -37,7 +41,10 @@
     
     <div class="login-form">
         <h1>Welcome online examination assessment </h1>
-
+        
+        @if(Session::has('error'))
+            <p class="session-error">{{Session::get('error')}}</p>
+        @endif
         <form method="post" action="{{route('userLogin')}}" clss="">
             @csrf
 
@@ -56,9 +63,8 @@
             <button type="submit">Login</button>
 
         </form>
-        @if(Session::has('error'))
-            <p class="session-error">{{Session::get('error')}}</p>
-        @endif
+        <a  style="float:right;"href="/forgotPassword">forgot password</a>
     </div>
+
 
 @endsection

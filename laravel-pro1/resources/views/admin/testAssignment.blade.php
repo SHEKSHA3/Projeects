@@ -58,9 +58,11 @@
             <th>Assignment ID</th>
             <th>Candidate ID</th>
             <th>Candidate Name</th>
-            <th>Exam ID</th>
+           
             <th>Exam Name</th>
             <th>Subject ID</th>
+            <th>Delete</th>
+
         </tr>
         @foreach ($total as $assignment)
         <tr>
@@ -68,10 +70,14 @@
             <td>{{ $assignment->id }}</td>
             <td>{{ $assignment->student_id }}</td>
             <td>{{ $assignment->candidate[0]->name ?? '' }}</td>
-            <td>{{ $assignment->exam_id }}</td>
             <td>{{ $assignment->exam[0]->exam_name ?? '' }}</td>
             <td>{{ $assignment->exam[0]->subject_id ?? '' }}</td>
+            <td>
+            <a href="{{ route('deleteTestCandidate', ['studentId' => $assignment->student_id, 'examId' => $assignment->exam_id]) }}" class="btn btn-danger">Delete</a>
+            </td>
+
             @endif
+            
         </tr>
         @endforeach
     </table>

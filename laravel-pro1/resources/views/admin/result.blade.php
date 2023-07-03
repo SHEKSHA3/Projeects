@@ -23,7 +23,7 @@
       <td>{{ $result->exam[0]->exam_name }}</td>
       <td>{{ $result->marks }}</td>
       <td>
-      @if($result->marks > ($result->exam[0]->passing_percentage * $result->marks / 100))
+      @if($result->marks >= ($result->exam[0]->passing_percentage * $result->exam[0]->question/ 100))
           <span class="text-success">Pass</span>
         @else
           <span class="text-danger">Fail</span>
@@ -87,36 +87,43 @@ document.querySelectorAll(".answersheet").forEach(function(button) {
         }
       })
       .then(function(data) {
+        
         var modalBodyTable = document.getElementById("modal-body-table");
         modalBodyTable.innerHTML = ""; // Clear existing table rows
-
+        // console.log(data.data)
         data.data.forEach(function(result) {
-          var row = document.createElement("tr");
-
-          var idCell = document.createElement("td");
-          idCell.textContent = result.id;
-          row.appendChild(idCell);
-
-          var candidateIdCell = document.createElement("td");
-          candidateIdCell.textContent = result.candidate_id;
-          row.appendChild(candidateIdCell);
-
-          var examIdCell = document.createElement("td");
-          examIdCell.textContent = result.exam_id;
-          row.appendChild(examIdCell);
-
-          var questionIdCell = document.createElement("td");
-          questionIdCell.textContent = result.question[0].question;;
-          row.appendChild(questionIdCell);
-
-          var answerIdCell = document.createElement("td");
-          answerIdCell.textContent = result.answer[0].answer;;
-          row.appendChild(answerIdCell);
-
-          // Append more cells for other fields if needed
-
-          modalBodyTable.appendChild(row);
-        });
+        var row = document.createElement("tr");
+      
+        var idCell = document.createElement("td");
+        idCell.textContent = result.id;
+        row.appendChild(idCell);
+      
+        var candidateIdCell = document.createElement("td");
+        candidateIdCell.textContent = result.candidate_id;
+        row.appendChild(candidateIdCell);
+      
+        var examIdCell = document.createElement("td");
+        examIdCell.textContent = result.exam_id;
+        row.appendChild(examIdCell);
+      
+        var questionIdCell = document.createElement("td");
+        questionIdCell.textContent = result.question[0].question;
+        row.appendChild(questionIdCell);
+      
+        var answerIdCell = document.createElement("td");
+        answerIdCell.textContent = result.answer[0].answer;
+        if (result.answer[0].is_correct== 1) {
+          answerIdCell.style.color = "green"; // Correct answer is displayed in green
+        } else {
+          answerIdCell.style.color = "red"; // Incorrect answer is displayed in red
+        }
+        row.appendChild(answerIdCell);
+         
+           // Append more cells for other fields if needed
+         
+           modalBodyTable.appendChild(row);
+         });
+         
       })
       .catch(function(error) {
         console.log('Error:', error.message);

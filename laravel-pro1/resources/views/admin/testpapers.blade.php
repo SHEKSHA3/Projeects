@@ -89,6 +89,7 @@ var buttons = document.querySelectorAll('.answershow');
         })
         .then(function(data) {
     // Handle the response from the server
+          console.log(data.data)
     var tableBody = document.querySelector('.tableshow tbody');
     tableBody.innerHTML = '';
 

@@ -5,6 +5,7 @@ use App\Http\Controllers\RegistereController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\ResultController;
+use App\Http\Controllers\SearchController;
 
 
 /*
@@ -19,7 +20,7 @@ use App\Http\Controllers\ResultController;
  */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/login');
 });
 
 Route::get('/register', [RegistereController::class, 'loadRegister']);
@@ -29,13 +30,19 @@ Route::get('/login', [RegistereController::class, 'loadlogin']);
 Route::post('/login', [RegistereController::class, 'userLogin'])->name('userLogin');
 
 Route::group(['middleware' => ['web', 'checkAdmin']], function () {
+
     // all users
     Route::get('/alluser',[adminController::class,'allUsers']);
     Route::get('/deleteuser/{userId}',[adminController::class,'deleteuser'])->name('admin.deleteUser');
-
-    
-
     Route::get('/admin/dashboard', [RegistereController::class,'adminDashboard']);
+
+    // question delete
+    Route::get('/deleteQuestion/{id}', [adminController::class, 'deleteQuestion'])->name('delete.question');
+
+
+
+
+
     // subject
     Route::post('/addSubject',[adminController::class,'addSubject'])->name('addSubject');
 
@@ -63,10 +70,11 @@ Route::group(['middleware' => ['web', 'checkAdmin']], function () {
     Route::get('/testpaper',[adminController::class,'testpaper'])->name('testpaper');
     Route::get('/get-exam-details/{id}',[adminController::class,'getTest'])->name('getTest');
 
-   
+    //test assigned     
     Route::get('/testAssignment',[adminController::class,'testAssignment'])->name('testAssignment');
     Route::post('/testAssignmentTocandidates',[adminController::class,'testAssignmentTocandidates'])->name('testAssignmentTocandidates');
     Route::get('/fetchQuestions', [adminController::class, 'fetchQuestions'])->name('fetchQuestions');
+    Route::get('/deleteTestCandidate', [adminController::class, 'deleteTestCandidate'])->name('deleteTestCandidate');
 
     // all candidate results sheet
     Route::get('/allcandidateresult',[adminController::class,'allcandidateresult']);
@@ -86,6 +94,10 @@ Route::group(['middleware' => ['web', 'checkCandidate']], function () {
 // Route for Result 
 Route::get('/showExam/{examId}', [AdminController::class, 'showExams'])->name('showExam');
 Route::get('/results',[ResultController::class,'resultsCandidate'])->name('results');
+Route::get('/forgotPassword',[RegistereController::class,'forgotPassword']);
+Route::post('/forgotPassword',[RegistereController::class,'updatedPassword'])->name('forgotPassword');
+
+
 
 Route::get('/logout', [RegistereController::class, 'logout']);
 

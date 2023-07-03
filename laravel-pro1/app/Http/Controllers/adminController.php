@@ -19,13 +19,15 @@ class adminController extends Controller
 
     public function allUsers()
     {
-         $userlist = User::get();
-         return view('admin.alluser', ['userlist' => $userlist]);
+        $userModel = new User();
+        $userlist = $userModel->returnAllUsers();
+        return view('admin.alluser', ['userlist' => $userlist]);
     }
 
     public function deleteUser($userId)
     {
        
+        
         $user = User::where('id', $userId)
             ->where('is_admin', 0)
             ->first();
@@ -34,6 +36,7 @@ class adminController extends Controller
             // User found, proceed with the deletion
             $user->delete();
             return response()->json(['message' => 'User deleted successfully']);
+            
         } else {
             // User not found or user is an admin
             return response()->json(['message' => 'User not found or is an admin'], 404);
@@ -64,6 +67,20 @@ class adminController extends Controller
 
         }
     }
+    
+    // deleting the question from question
+    public function deleteQuestion($questionId)
+    {  
+        $question = Question::find($questionId);
+        if ($question) {
+            Answer::where('question_id', $questionId)->delete();
+            $question->Delete();
+            return back();
+        } else {
+            return response()->json(['error' => 'Question not found'], 404);
+        }
+    }
+
     public function testpaperdeleteSubject(Request $request)
     {
         try{
@@ -108,11 +125,6 @@ class adminController extends Controller
                 'hard'=>$request->hard,
                 'passing_percentage'=>$request->passing_percentage,
             ]); 
-            
-
-           
-        
-
             return response()->json(['success'=>true,'msg'=>"Exam added successfullly"]);
         }catch(\Exception $e){
              return response()->json(['success'=>false,'msg'=>$e->getMessage()]);
@@ -134,7 +146,9 @@ class adminController extends Controller
     public function updateExam(Request $request ){
         try{
             $exam=Exam::find($request->exam_id);
-
+            if (TestPaper::where('exam_id', $request->exam_id)->exists()) {
+                TestPaper::where('exam_id', $request->exam_id)->delete();
+            }
             $exam->exam_name=$request->exam_name;
             $exam->subject_id=$request->subject_id;
             $exam->date=$request->date;
@@ -159,6 +173,10 @@ class adminController extends Controller
     {
         try{
             Exam::where('id',$request->exam_id)->delete();
+            if (TestPaper::where('exam_id', $request->exam_id)->exists()) {
+                TestPaper::where('exam_id', $request->exam_id)->delete();
+            }
+    
             return response()->json(['success'=>true,'msg'=>"Exam deleted successfullly"]);
         }catch(\Exception $e){
             return response()->json(['success'=>false,'msg'=>$e->getMessage()]);
@@ -195,7 +213,7 @@ class adminController extends Controller
             return response()->json(['success'=>false,'message'=>$e->getMessage()]);
         }
     }
-// testing *************************************************8
+
 
     public function takeQuestion(Request $request){
         $qna=Question::where('id',$request->qid)->with('answer','level')->get();
@@ -344,6 +362,7 @@ public function testpaper()
     }
     
     public function allcandidateresult(){
+
         $results=FailOrPass::with('candidate','exam')->get();
         return view('admin.result')->with('results', $results);
     }
@@ -359,5 +378,27 @@ public function testpaper()
       catch(\Exception $e){
         return response()->json(['success'=>false,'msg'=>$e->getMessage()]);
       }
-     }
+ 
+    }
+
+    // test Assign deleting
+    public function deleteTestCandidate(Request $request)
+    {
+        $studentId = $request->query('studentId');
+        $examId = $request->query('examId');
+        $candidate = TestAssign::where('student_id', $studentId)
+                           ->where('exam_id', $examId)
+                           ->first();
+        if($candidate){
+            $candidate->delete();
+            return back();
+        }else{
+            return back();
+        }
+
+        // Perform the necessary actions to delete the test candidate
+        // Use the $studentId and $examId variables as needed
+
+        return response()->json(['message' => 'Test candidate deleted successfully'], 200);
+    }
 }

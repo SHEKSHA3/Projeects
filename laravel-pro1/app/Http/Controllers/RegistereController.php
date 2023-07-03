@@ -98,6 +98,29 @@ class RegistereController extends Controller
     Auth::logout();
     return redirect('/login');
    }
+   public function forgotPassword(){
+        return view('/forgot');
+   }
 
+   public function updatedPassword(Request $request){
+
+    if(User::find())
+    $request->validate([
+        'name' => 'required|string|min:2',
+        'email' => 'required|string|email|max:100|unique:users',
+        'password' => [
+            'required',
+            'string',
+            'min:6',
+            'regex:/^(?=.*[A-Z])/u', // Requires at least one uppercase alphabetic character
+        ],
+        'password_confirm' => 'required|string|same:password',
+        'is_admin' => 'required'
+    ]);
+    
+   }
+
+
+   
 
 }

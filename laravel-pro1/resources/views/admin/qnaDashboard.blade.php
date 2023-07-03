@@ -16,6 +16,7 @@
                 <th>Answer</th>
                 <th>Level</th>
                 <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +34,11 @@
                             <button class="btn btn-info editButton"
                             href="#" data-id="{{$que->id}}"
                             data-toggle="modal" data-target="#editQnaModal">edit</button>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger deleteButton"
+                            href="/deleteQuestion/{{$que->id}}" data-id="{{$que->id}}"
+                            >Delete</a>
                         </td>
                     </tr>
                 @endforeach
@@ -92,7 +98,7 @@
                         <button btn class="p-2 btn btn-danger removeButton removeAnswer">Remove</button>
                     </div>
                 </div>
-                        
+
                     </div>
                     <div class="modal-footer">
                         <select required name="level_id">
@@ -182,7 +188,8 @@
     <!-- end of edit the answer -->
 
     <script>
- document.addEventListener('DOMContentLoaded', function() {
+ document.addEventListener('DOMContentLoaded', function()
+ {
     // Form values inserting
     document.querySelector("#addquestion").addEventListener("submit", function(e) {
         e.preventDefault();
@@ -228,6 +235,9 @@
             }
         }
     });
+
+
+
 
     // Add answer
     document.querySelector("#addAnswer").addEventListener("click", function() {
@@ -407,6 +417,9 @@
     function clearError() {
         document.querySelector('.alert').remove();
     }
+
+    // deleting the question
+    
 });
 
 </script>

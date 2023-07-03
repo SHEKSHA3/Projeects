@@ -1,9 +1,3 @@
-/*!
- * Bootstrap v4.3.1 (https://getbootstrap.com/)
- * Copyright 2011-2019 The Bootstrap Authors
- * Copyright 2011-2019 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -10999,3 +10993,40 @@ a[data-toggle="collapse"] {
   cursor: pointer;
   font-size: 16px;
 }
+
+
+.sticky-navigation {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+}
+
+#navigation-button {
+  display: block;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+#navigation-menu {
+  display: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#navigation-menu li {
+  margin-bottom: 10px;
+}
+
+#navigation-menu li a {
+  display: block;
+  padding: 5px;
+  color: #333;
+  text-decoration: none;
+  background-color: #fff;
+}
+

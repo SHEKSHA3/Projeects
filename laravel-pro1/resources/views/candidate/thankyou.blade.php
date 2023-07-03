@@ -35,6 +35,7 @@
 <body>
     <h1>Thank You!</h1>
     <div class="emoji">🎉</div>
-    <p>Your message has been received successfully.</p>
+    <p>Your Test has been received successfully.</p>
+    <p><a href="{{url('/login')}}">Go back</a></p>
 </body>
 </html>

@@ -23,6 +23,11 @@ class FailOrPass extends Model
     public function exam(){
         return $this->hasMany(Exam::class,'id','exam_id');
     }
+
+    public static function getResultsByCandidateId($candidateId)
+    {
+        return FailOrPass::where('candidate_id', $candidateId)->with('candidate', 'exam')->get();
+    }
     
 }
  

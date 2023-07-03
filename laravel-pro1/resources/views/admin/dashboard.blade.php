@@ -3,8 +3,6 @@
 @section('fillspace')
 <h2>Subject</h2>
 
-
-
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId">
 Add subject</button>
@@ -88,7 +86,6 @@ Add subject</button>
             <label>Subject</label>
             <input name="subject" type="text" id="edit_Subject" required>
             <input type="hidden" name="id" id="edit_subject_id">
-
             </form>
             </div>
             <div class="modal-footer">
@@ -115,7 +112,6 @@ Add subject</button>
             <div class="modal-body">
             <p>Are you sure you want to delete subject</p>
             <input type="hidden" name="id" id="delete_subject_id">
-
             </form>
             </div>
             <div class="modal-footer">
@@ -163,6 +159,7 @@ Add subject</button>
   document.querySelector('#editSubject').addEventListener('submit', function(e) {
     e.preventDefault();
     var formData = new FormData(this);
+    // console.log(formData);
 
     fetch("{{route('editSubject')}}", {
       method: "POST",
@@ -171,7 +168,7 @@ Add subject</button>
     .then(response => response.json())
     .then(data => {
       if (data.success === true) {
-        location.reload();
+        // location.reload();
       } else {
         console.log(data.msg);
       }

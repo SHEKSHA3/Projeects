@@ -13,7 +13,7 @@
   <body>
     <!-- trail -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Welcome :{{session()->get('id')}}</a>
+      <a class="navbar-brand" href="#">Welcome :{{ Auth::user()->name }}</a>
     </nav>
     <!-- trail -->
     <div class="wrapper d-flex align-items-stretch">
@@ -27,7 +27,7 @@
         <h1><a href="index.html" class="logo">Candidate Dashboard</a></h1>
         <ul class="list-unstyled components mb-5">
           <li>
-            <a href="/dashboard"><span class="fa fa-user mr-3"></span> Dashboard</a>
+            <a href="/dashboard"><span class="fa fa-user mr-3"></span> Test Instruction</a>
           </li>
           <li class="active">
             <a href="/exams"><span class="fa fa-tasks mr-3"></span> Exams</a>

@@ -6,6 +6,7 @@
             height: 100vh;
             margin: 0;
             padding: 0;
+            font-size:20px;
         }
 
         .container {
@@ -77,6 +78,26 @@
         .timer .fill,
         .timer .mask {
             transition: all 1s;
+       }
+
+       .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .navigation-buttons button {
+        padding: 10px 20px;
+        font-size: 20px;
+        background-color: #39c;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .navigation-buttons button:hover {
+        background-color: #2978b5;
     }
 
         .timer .time {
@@ -98,20 +119,25 @@
             <div class="time" id="timer"></div>
         </div>
     </div>
-    <form method="POST" action="{{route('examresult')}}">
+    <form method="POST" action="{{ route('examresult') }}" id="form">
     @csrf
     <div class="container">
         <div id="page-info">
-            <span id="current-page">1</span> / <span id="total-pages">0</span>
+            <span id="current-page">1</span> / <span id="total-pages">{{ count($values) }}</span>
         </div>
-        @php $count=1; @endphp
+        @php $count = 1;$countquestion=1; @endphp
         @foreach($values as $qna)
         <div class="question-card active">
-            <h2>Question {{$count}}</h2>
-            <p>{{$qna->question}}</p>
+            <h2>Question {{ $count }}</h2>
+            <p>{{ $qna->question }}</p>
             @foreach($qna['answer'] as $ans)
-            <input type="radio" name="answer[{{$qna->id}}]" value="{{$ans->id}}">{{$ans->answer}}<br>
+            <label>
+            {{ $countquestion++ }}
+                <input type="radio" name="answer[{{ $qna->id }}]" value="{{ $ans->id }}">
+                {{ $ans->answer }}
+            </label><br>
             @endforeach
+            @php $countquestion=1;@endphp
             <div class="navigation-buttons">
                 <button type="button" onclick="previousQuestion()">Previous</button>
                 <button type="button" onclick="nextQuestion()">Next</button>
@@ -120,17 +146,21 @@
         @php $count++; @endphp
         @endforeach
 
-        <button onclick="submitForm()" id="alerting" type="submit">End Exam</button>
+        <button onclick="submitForm()" class="btn btn-danger" id="alerting" type="submit">End Exam</button>
         <input type="hidden" name="candidate_id" id="candidateId" value="">
         <input type="hidden" name="exam_id" id="examId" value="">
     </div>
 </form>
 
 
+
 <script>
     let candidateId = @json($candidate_id);
     let examId = @json($exam_id);
-    console.log(@json($exam));
+    let exam=@json($exam);
+    const time=exam[0]['time'];
+    const parts = time.split(':');
+    const minutes = parseInt(parts[0]) * 60 + parseInt(parts[1]);
 
     document.getElementById('candidateId').value = candidateId;
     document.getElementById('examId').value = examId;
@@ -181,7 +211,7 @@
     }
 
     function submitForm() {
-        alert("are you sure you want to end this exam");
+        // alert("are you sure you want to end this exam");
         saveSelectedAnswer(currentQuestion);
         console.log(selectedAnswers);
     }
@@ -190,7 +220,7 @@
 
     // Timer Functionality
     const timerElement = document.getElementById('timer');
-    const totalTime = 30 * 60; // 30 minutes in seconds
+    const totalTime = minutes; 
     let timeRemaining = totalTime;
 
     function formatTime(seconds) {
@@ -198,28 +228,29 @@
         const remainingSeconds = seconds % 60;
         return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
     }
-
     function updateTimer() {
-        const fillElement = document.querySelector('.timer .fill');
-        const maskElement = document.querySelector('.timer .mask');
-        const elapsedSeconds = totalTime - timeRemaining;
-        const progress = (elapsedSeconds / totalTime) * 100;
+  const fillElement = document.querySelector('.timer .fill');
+  const maskElement = document.querySelector('.timer .mask');
+  const elapsedSeconds = totalTime - timeRemaining;
+  const progress = (elapsedSeconds / totalTime) * 100;
 
-        fillElement.style.transform = `rotate(${progress}deg)`;
-        maskElement.style.transform = `rotate(${progress}deg)`;
+  fillElement.style.transform = `rotate(${progress}deg)`;
+  maskElement.style.transform = `rotate(${progress}deg)`;
 
-        timerElement.textContent = formatTime(timeRemaining);
+  timerElement.textContent = formatTime(timeRemaining);
 
-        if (timeRemaining <= 0) {
-            clearInterval(timerInterval);
-            submitForm();
-        }
+  if (timeRemaining <= 0) {
+    clearInterval(timerInterval);
+    submitForm(); // Submit the form
+    document.getElementById('form').submit(); 
+    return; // Exit the function to prevent further countdown
+  }
 
-        timeRemaining--;
-    }
+  timeRemaining--;
+}
 
+const timerInterval = setInterval(updateTimer, 1000);
 
-    const timerInterval = setInterval(updateTimer, 1000);
 </script>
 </body>
 </html>
