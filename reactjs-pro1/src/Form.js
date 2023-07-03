@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./Form.css";
+import Text from "./Text";
+import Test from "./Test";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const countries = ["USA", "Canada", "UK", "Australia"];
 const genderOptions = ["Male", "Female", "Other"];
@@ -22,7 +25,6 @@ const Form = () => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    
     const fieldValue = type === "checkbox" ? checked : value;
     // console.log(fieldValue)
     setFormData((prevFormData) => ({
@@ -33,13 +35,12 @@ const Form = () => {
 
   const handleHobbiesChange = (e) => {
     const { value, checked } = e.target;
-  
+
     if (checked) {
       setFormData((prevFormData) => ({
         ...prevFormData,
         hobbies: [...prevFormData.hobbies, value],
       }));
-     
     } else {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -50,7 +51,7 @@ const Form = () => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    console.log(file['name'])
+    console.log(file["name"]);
     setFormData((prevFormData) => ({
       ...prevFormData,
       file: file,
@@ -117,6 +118,14 @@ const Form = () => {
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit}>
+        <Text name="Create Form" />
+        <BrowserRouter>
+      <Routes>
+        <Route path="/Test" element={<Test />}></Route>
+        </Routes>
+        </BrowserRouter>
+
+        {/* </Routes> */}
         <div>
           <label htmlFor="name">Name:</label>
           <input

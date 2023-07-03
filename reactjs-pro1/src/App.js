@@ -4,6 +4,8 @@ import NewExpense from "./components/NewExpense/NewExpense";
 import Expenses from "./components/Expenses/Expenses";
 import Form from "./Form";
 import FormValidation from "./Personal/FormValidation";
+import Test from "./Test";
+
 
 const App = () => {
   const expenses = [
@@ -36,7 +38,7 @@ const App = () => {
   const addExpenseHandler = (expense) => {
 
     console.log("In App.js");
-    // console.log(expense);
+    console.log(expense);
   };
 
   // return React.createElement(
@@ -48,10 +50,11 @@ const App = () => {
 
   return (
     <div>
-      <NewExpense onAddExpense={addExpenseHandler} />
-      <Expenses items={expenses} />
-      {/* <Form/>
-      <FormValidation/> */}
+      {/* <NewExpense onAddExpense={addExpenseHandler} />
+      <Expenses items={expenses} /> */}
+      <Form/>
+      <Test/>
+      {/* <FormValidation/> */}
     </div>
   );
 };
